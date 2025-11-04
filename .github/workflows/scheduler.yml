@@ -1,0 +1,23 @@
+name: Background Notification Scheduler
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # runs every 6 hours
+  workflow_dispatch:        # allow manual trigger
+
+jobs:
+  run-scheduler:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Run background tasks
+        env:
+          SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          curl -X POST "https://${SUPABASE_PROJECT_ID}.supabase.co/functions/v1/make-server-a54ff65c/scheduler/trigger-all" \
+          -H "Content-Type: application/json" \
+          -H "apikey: ${SUPABASE_ANON_KEY}"
