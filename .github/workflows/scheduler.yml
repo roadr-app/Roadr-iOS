@@ -21,3 +21,4 @@ jobs:
           curl -X POST "https://${SUPABASE_PROJECT_ID}.supabase.co/functions/v1/make-server-a54ff65c/scheduler/trigger-all" \
           -H "Content-Type: application/json" \
           -H "apikey: ${SUPABASE_ANON_KEY}"
+          -H "Authorization: Bearer ${SUPABASE_ANON_KEY}"
